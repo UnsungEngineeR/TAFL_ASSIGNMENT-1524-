@@ -54,6 +54,11 @@ main {
     overflow: hidden;
 }
 
+.heading{
+    font-size: 2rem;
+    text-shadow: #0f172a 1px 1px, #0f172a -1px -1px, #0f172a -1px 1px, #0f172a 1px -1px;
+}
+
 .sidebar {
     width: 350px;
     display: flex;
