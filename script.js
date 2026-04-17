@@ -8,6 +8,7 @@ let currentView = 'nfa-graph';
 
 document.addEventListener('DOMContentLoaded', () => {
     cytoscape.use(cytoscapeDagre);
+    loadTheme();
     
     document.getElementById('btn-generate').addEventListener('click', handleGenerate);
     document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
@@ -37,13 +38,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+function setTheme(theme) {
+    const body = document.body;
+    if (theme === 'dark') {
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('tafl-theme', 'dark');
+    } else {
+        body.removeAttribute('data-theme');
+        localStorage.setItem('tafl-theme', 'light');
+    }
+}
+
+function loadTheme() {
+    const storedTheme = localStorage.getItem('tafl-theme');
+    if (storedTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+    } else if (storedTheme === 'light') {
+        document.body.removeAttribute('data-theme');
+    } else {
+        document.body.setAttribute('data-theme', 'dark');
+    }
+}
+
 function toggleTheme() {
     const body = document.body;
-    if (body.getAttribute('data-theme') === 'dark') {
-        body.removeAttribute('data-theme');
-    } else {
-        body.setAttribute('data-theme', 'dark');
-    }
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    setTheme(isDark ? 'light' : 'dark');
     if (cy) renderCurrentView(false);
 }
 
@@ -349,6 +369,12 @@ function renderGraph(elements, animateBuild) {
     cy = cytoscape({
         container: document.getElementById('cy'),
         elements: elements,
+        zoom: 0.85,
+        minZoom: 0.7,
+        maxZoom: 2.5,
+        wheelSensitivity: 0.2,
+        userZoomingEnabled: true,
+        userPanningEnabled: true,
         style: [
             { selector: 'node', style: { 'width': '35px', 'height': '35px', 'background-color': isDark ? '#1e293b' : '#fff', 'border-width': 2, 'border-color': '#2563eb', 'label': 'data(label)', 'text-valign': 'center', 'color': isDark ? '#f8fafc' : '#0f172a', 'font-size': '12px' } },
             { selector: 'node.start', style: { 'background-color': isDark ? '#1e3a8a' : '#dbeafe', 'border-color': '#2563eb' } },

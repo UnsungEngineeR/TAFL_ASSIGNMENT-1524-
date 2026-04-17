@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex to ε-NFA Conversion</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.26.0/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+</head>
+<body data-theme="dark">
+    <header>
+        <div class="top-nav">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="browse.html">Browse Logic</a>
+        </div>
+        <h1 class="heading">REGEX to ε-NFA Visualizer</h1>
+        <button id="theme-toggle" class="btn-solid">Toggle Dark Mode</button>
+    </header>
+
+    <main>
+        <div class="sidebar">
+            <section class="panel controls-panel">
+                <h2>1. Regex Definition</h2>
+                
+                <div class="input-group">
+                    <input type="text" id="regex-input" placeholder="e.g., (a|b)*abb">
+                    <button id="btn-generate">Generate</button>
+                </div>
+
+                <div class="examples-group">
+                    <span class="example-label">Try:</span>
+                    <button class="btn-example" data-regex="(a|b)*abb">Ends in abb</button>
+                    <button class="btn-example" data-regex="a(a|b)+b">The + Operator</button>
+                    <button class="btn-example" data-regex="0*1*0*">Binary 0*1*0*</button>
+                </div>
+
+                <div class="action-group">
+                    <button id="btn-export" class="btn-outline" title="Download Graph as PNG"> Export PNG</button>
+                    <button id="btn-reset-layout" class="btn-outline"> Auto-Arrange</button>
+                </div>
+
+                <div id="error-message" class="error hidden"></div>
+                
+                <div id="formal-definition" class="formal-def hidden">
+                    <h3>Formal Definition: NFA = (Q, Σ, δ, q₀, F)</h3>
+                    <ul>
+                        <li><strong>Postfix:</strong> <span id="def-postfix" class="mono-text"></span></li>
+                        <li><strong>Q (States):</strong> <span id="def-Q"></span></li>
+                        <li><strong>Σ (Alphabet):</strong> <span id="def-Sigma"></span></li>
+                        <li><strong>δ (Transitions):</strong> Shown in Graph</li>
+                        <li><strong>q₀ (Start):</strong> <span id="def-q0"></span></li>
+                        <li><strong>F (Final):</strong> <span id="def-F"></span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="panel view-panel">
+                <h2>2. Select View</h2>
+                <div class="button-group">
+                    <button class="view-btn active" data-view="nfa-graph">NFA Graph</button>
+                    <button class="view-btn" data-view="nfa-table">NFA Table</button>
+                </div>
+            </section>
+
+            <section class="panel simulation-panel">
+                <h2>3. NFA Simulation</h2>
+                <div class="input-group">
+                    <input type="text" id="sim-input" placeholder="Test string (e.g., ab)">
+                    <button id="btn-simulate">Animate</button>
+                </div>
+                <div id="sim-status" class="sim-status">Waiting for input...</div>
+            </section>
+        </div>
+
+        <div class="main-content">
+            <section class="panel visualization-panel">
+                <div id="cy"></div>
+                <div id="table-container" class="hidden"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
